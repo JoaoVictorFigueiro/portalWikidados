@@ -4,7 +4,6 @@ import Router from 'vue-router'
 import login from '@/components/login.vue'
 import chamados from '@/components/chamados/chamados.vue'
 import todosChamados from '@/components/chamados/todosChamados.vue'
-import meusChamados from '@/components/chamados/meusChamados.vue'
 import novo from '@/components/chamados/novoChamado.vue'
 import portal from '@/components/portal.vue'
 // import equipamentos from '@/components/equipamentos.vue'
@@ -38,9 +37,14 @@ export default new Router({
                         name: 'mode',
                         component:todosChamados
                     },
+                    // {
+                    //     path:'detalhes/:id',
+                    //     name: 'detalhes',
+                    //     component: novo
+                    // },
                     {
-                        path:'detalhes/:id',
-                        name: 'detalhes',
+                        path: 'novo',
+                        name: 'novo',
                         component: novo
                     }
                 ]

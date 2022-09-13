@@ -1,7 +1,6 @@
 :root {
-    --letras: #134611;
-    --fundo: #3e8914;
-    --bordas: #3da35d;
-    --outros1: #96e072;
-    --outros2: #e8fccf;
-}
+    --cabecalho: #004346;
+    --fundo: #172a3a;
+    --letras: #09bc8a;
+    --opacidade: 0
+    }

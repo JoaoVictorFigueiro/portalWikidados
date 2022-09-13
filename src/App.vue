@@ -18,5 +18,15 @@ export default {
 </script>
 
 <style>
+@import '@/static/baseCores.css';
+
+#app {
+  background-color: var(--fundo);
+  height: 100vh;
+}
+
+body * {
+  color: var(--letras);
+}
 
 </style>

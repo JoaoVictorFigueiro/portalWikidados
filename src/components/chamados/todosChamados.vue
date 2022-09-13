@@ -5,12 +5,16 @@
                 <b-spinner id="spinner" larger variant="success" label="" ></b-spinner>
                 <strong >Loading</strong>
             </div>
-            <b-table v-if="todosTickets.length > 0" :style="`filter:blur(${blur})`" id="mainTable" select-mode="range" label-sort-asc="" label-sort-desc="" label-sort-clear="" stripped :items="todosTickets" :fields="campos"></b-table>
-            <h3 v-else class="text-center"> Você não possui chamados </h3>
+            <b-table @row-clicked="teste($event.id)" v-if="todosTickets.length > 0" :style="`filter:blur(${blur})`" id="mainTable" select-mode="range" label-sort-asc="" label-sort-desc="" label-sort-clear="" stripped :items="todosTickets" :fields="campos">
+                <div slot="info" slot-scope="data">
+                    <a href=""> {{data.value.Tittle}}</a>
+                </div>
+            </b-table>
+            <h3 v-if="todosTickets.length <= 0" class="text-center"> Você não possui chamados </h3>
         </div>
         <div class="overflow-auto">
             <div>
-                <b-pagination align="center"  class="text-center" @click.native="pegarTickets(pagination.paginaAtual-1, $route.params.mode)" v-model="pagination.paginaAtual" :total-rows="pagination.totalDePaginas" :per-page="10" size="md"></b-pagination>
+                <b-pagination align="center" class="text-center text-success" id="pagination" @click.native="pegarTickets(pagination.paginaAtual-1, $route.params.mode)" v-model="pagination.paginaAtual" :total-rows="pagination.totalDePaginas" :per-page="10" size="md"></b-pagination>
             </div>
         </div>
     </div>
@@ -77,10 +81,13 @@ export default {
         removeDescription(tickets) {
             delete tickets.Description
             delete tickets.Solution
-            delete tickets.id
             delete tickets.Priority
             delete tickets["Contact Name"]
             return tickets
+        },
+
+        teste(row) {
+            console.log(row)
         },
 
         async pegarTickets(pagina, mode){
@@ -91,9 +98,10 @@ export default {
             this.pagination.totalDePaginas = todos.data.result.count
             //todos.data.result.headers.map((valor, index) => valor={"key": valor, "sortable": true, "label": valor})
             this.todosTickets = todos.data.result.records.map((valor, index) => this.removeDescription(valor))
-            }, erro => {
-                alert(`um erro ocorreu` + erro)
-            },).finally(final => {
+            }).catch(erro => {
+                alert('Sua sessão expirou, faça login novamente!')
+                router.push('/login')
+            }).finally(final => {
                 this.carregando = false
                 this.blur = 0
             })
@@ -115,6 +123,8 @@ export default {
 
 <style>
 
+@import '@/static/baseCores.css';
+
 #loading {
     display: grid;
     place-items: center;
@@ -126,7 +136,15 @@ export default {
     margin-right: 20px;
 }
 
-#mainTable:hover {
-    
+#pagination *{
+    background-color: var(--fundo);
+    color: var(--letras);
+    border-color: var(--letras);
 }
+
+#pagination .page-item > [aria-checked="true"] {
+    background-color: var(--letras);
+    color: black;
+}
+
 </style>
